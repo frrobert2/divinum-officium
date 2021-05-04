@@ -128,22 +128,49 @@ sub getadvent {
 # returns easter date (dd,mm,yyyy);
 sub geteaster {
 
-  my $year = shift;
-  my $c = floor($year / 100);
-  my $n = $year - 19 * floor($year / 19);
-  my $k = floor(($c - 17) / 25);
-  my $i = $c - floor($c / 4) - floor(($c - $k) / 3) + 19 * $n + 15;
+	  my $year = shift;
+	  # Gregorian formula  
+	#  my $c = floor($year / 100);
+	#  my $n = $year - 19 * floor($year / 19);
+	#  my $k = floor(($c - 17) / 25);
+	#  my $i = $c - floor($c / 4) - floor(($c - $k) / 3) + 19 * $n + 15;
+	#
+	#  $i = $i - 30 * floor($i / 30);
+	#  $i = $i - floor($i / 28) * (1 - floor($i / 28) * floor(29 / ($i + 1))) * floor((21 - $n) / 11);
+	#  my $j = $year + floor($year / 4) + $i + 2 - $c + floor($c / 4);
+	#  $j = $j - 7 * floor($j / 7);
+	#  my $l = $i - $j;
+	#  my $m = 3 + floor(($l + 40) / 44);
+	#  my $d = $l + 28 - 31 * floor($m / 4);
+	#  #return ($d, $m - 1, $year);
+	#  End of Gregorian
+	#  Beginning of Orthodox
+	my $y2 = floor($year / 100);
+my $e = 10 + $y2 - 16 - floor(($y2 - 16) / 4);
+my $G = $year % 19;
+my $I = (19 * $G + 15) % 30;
+my $J = ($year + floor($year / 4)+ $I) % 7;
+my $L = $I - $J;
+my $p = $L + $e;
+my $d = 1 + ($p + 27 + floor(($p + 6) / 40)) % 31;
+my $m = 3 + floor(($p + 26) / 30) - 1;
 
-  $i = $i - 30 * floor($i / 30);
-  $i = $i - floor($i / 28) * (1 - floor($i / 28) * floor(29 / ($i + 1))) * floor((21 - $n) / 11);
-  my $j = $year + floor($year / 4) + $i + 2 - $c + floor($c / 4);
-  $j = $j - 7 * floor($j / 7);
-  my $l = $i - $j;
-  my $m = 3 + floor(($l + 40) / 44);
-  my $d = $l + 28 - 31 * floor($m / 4);
-  return ($d, $m - 1, $year);
+return ($d, $m , $year);
+# End of Orthodox Formula
+# Work around till I get formula working
+#if( $year == 2021) {
+#  return (02, 04, 2021);
+#}
+#elsif( $year == 2022) {
+#  return (24, 03, 2022);
+#}
+#elsif( $year == 2023) {
+#  return (16, 03, 2023);
+#}
+#elsif( $year == 2024) {
+#  return (05, 04, 2024);
+#}
 }
-
 #*** checkfile($lang, $filename)
 # substitutes English if no $lang item, Latin if no English
 # if $lang contains dash, the part before the last dash is taken as a fallback recursively (till something exists)
