@@ -1,3 +1,12 @@
+# This is a brand new fork
+# The Goal is to take this fork and use it for Western Rite Orthodox
+# This is not READY for Use
+# This Readme file has not been changed 
+# Please do not fork unless you have talked to me about working on the project
+# 
+
+
+
 # divinum-officium
 
 Data files and source code for the
